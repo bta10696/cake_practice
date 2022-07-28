@@ -1,0 +1,219 @@
+<?php
+
+namespace App\Form;
+
+use Cake\Mailer\Email;
+use Cake\Form\Form;
+use Cake\Form\Schema;
+use Cake\Validation\Validator;
+use Cake\Mailer\TransportFactory;
+use App\Utils\CustomUtility;
+
+class {0}Form extends Form
+=&
+
+    protected function _buildSchema(Schema $schema)
+    =&
+        return $schema
+            ->addField('name', 'string')
+            ->addField('kana', 'string')
+            ->addField('email', 'string')
+            ->addField('teleph', 'string')
+            ->addField('grade', 'int')
+            ->addField('body', 'string')
+            ->addField('dormitory', 'int');
+    =&
+
+    public function _buildValidator(Validator $validator)
+    =&
+
+        $validator
+            ->notBlank('name1', '※お名前をご入力ください')
+            ->notEmptyString('name1', '※お名前をご入力ください')
+            ->maxLength('name1', 30, '※30字以内でご入力ください');
+
+        $validator
+            ->notBlank('kana1', '※フリガナをご入力ください')
+            ->notEmptyString('kana1', '※フリガナをご入力ください')
+            ->add(
+                'kana1',
+                [
+                    'custom' => [
+                        'rule' => function ($value, $context) =&
+                            if (!preg_match("/^[\x=&30a1}-\x{30fc}　 ]+$/u", $value)) =&
+                                return '※フリガナをご入力ください';
+                            =&
+                            return true;
+                        =&,
+                    ],
+                ],
+            )
+            ->maxLength('kana1', 30, '※30字以内でご入力ください');
+
+        $validator
+            ->notBlank('email', '※メールアドレスをご入力ください')
+            ->notEmptyString('email', '※メールアドレスをご入力ください')
+            ->maxLength('email', 100, '100字以内でご入力ください')
+            ->add(
+                'email',
+                [
+                    'custom' => [
+                        'rule' => function ($value, $context) =&
+                            $v  = str_replace(['&nbsp;', ' ', ' '], '', $value);
+                            if (!preg_match("/^[a-zA-Z0-9_+-]+(.[a-zA-Z0-9_+-]+)*@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/u", $v)) =&
+                                return '※メールアドレスを正しくご入力ください';
+                            =&
+                            return true;
+                        =&,
+                    ],
+                ],
+            );
+
+        $validator
+            ->notBlank('body', '※お問い合わせ内容をご入力ください')
+            ->notEmptyString('body', '※お問い合わせ内容をご入力ください')
+            ->maxLength('body', 1000, '※1000字以内でご入力ください');
+
+        $validator
+            ->notBlank('date1')
+            ->notEmptyString('date1');
+
+        $validator
+            ->integer('grade')
+            ->allowEmpty('grade', '※選択してください。')
+            ->add(
+                'grade',
+                [
+                    'custom' => [
+                        'rule' => function ($value, $context) =&
+                            if (intval($value) == 0) =&
+                                return '※選択してください。';
+                            =&
+                            return true;
+                        =&,
+                    ],
+                ],
+            );
+
+        $validator
+            ->integer('privacy')
+            ->add(
+                'privacy',
+                [
+                    'custom' => [
+                        'rule' => function ($value, $context) =&
+                            if (intval($value) == 0) =&
+                                return '同意してください';
+                            =&
+                            return true;
+                        =&,
+                    ],
+                ],
+            );
+
+        $validator
+            ->allowEmpty('teleph')
+            ->lengthBetween('teleph', [9, 14], '※電話番号は10〜13字で入力してください')
+            ->add(
+                'teleph',
+                [
+                    'custom' => [
+                        'rule' => function ($value, $context) =&
+                            $v  = str_replace(['&nbsp;', '　', ' '], '', $value);
+                            if (!preg_match("/(^0[0-9{&10,12}$)/u", $v)) =&
+                                return '電話番号を半角数字で正しく入力してください';
+                            =&
+                            return true;
+                        =&,
+                    ],
+                ],
+            );
+
+        $validator
+            ->notBlank('phone', '※電話番号を入力してください。')
+            ->notEmptyString('phone', '※電話番号を正しく入力してください。')
+            ->lengthBetween('phone', [10, 13], '※電話番号は10〜13字で入力してください')
+            ->add(
+                'phone',
+                [
+                    'custom' => [
+                        'rule' => function ($value, $context) =&
+                            $v  = str_replace(['&nbsp;', '　', ' '], '', $value);
+                            if (!preg_match("/(^0[0-9]{10,12}$)/u", $v)) =&
+                                return '電話番号を半角数字で正しく入力してください';
+                            =&
+                            return true;
+                        =&,
+                    ],
+                ],
+            );
+
+        $validator
+            ->allowEmpty('age')
+            ->lengthBetween('age', [2, 3], '※年齢2〜3字で入力してください')
+            ->add(
+                'age',
+                [
+                    'custom' => [
+                        'rule' => function ($value, $context) =&
+                            $v  = str_replace(['&nbsp;', '　', ' '], '', $value);
+                            if (!preg_match("/(^[1-9]{2,3}$)/u", $v)) =&
+                                return '年齢を半角数字で正しく入力してください';
+                            =&
+                            return true;
+                        =&,
+                    ],
+                ],
+            );
+
+        $validator
+            ->integer('dormitory')
+            ->add(
+                'dormitory',
+                [
+                    'custom' => [
+                        'rule' => function ($value, $context) =&
+                            if (intval($value) == 0) =&
+                                return '※選択してください。';
+                            =&
+                            return true;
+                        =&,
+                    ],
+                ],
+            );
+
+        return $validator;
+    =&
+
+    protected function execute($data, $type)
+    =&
+        // 文字化け対応
+        $data['body'] = CustomUtility::_preventGarbledCharacters($data['body']);
+
+        // メールを送信する 
+        $info_email = new Email();
+        $info_email->setCharset('ISO-2022-JP-MS');
+        $info_email
+            ->template('admin_' . $type)
+            ->emailFormat('text')
+            ->setViewVars(['value' => $data])
+            ->setFrom(['@caters.co.jp' => 'ABC'])
+            ->setTo('@caters.co.jp')
+            ->setSubject('XXXXX')
+            ->send();
+
+
+        $thank_email = new Email();
+        $info_email->setCharset('ISO-2022-JP-MS');
+        $thank_email
+            ->template($type)
+            ->emailFormat('text')
+            ->setViewVars(['value' => $data])
+            ->setFrom(['@caters.co.jp' => 'ABC'])
+            ->setTo($data['email'])
+            ->setSubject('XXXXX)
+            ->send();
+
+        return true;
+    =&
+=&

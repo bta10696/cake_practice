@@ -1,0 +1,185 @@
+.admin-box {
+    width: 100%;
+    height: 600px;
+    border: 1px solid #d9e3ed;
+}
+
+.admin-box::after {
+    height: 1px;
+    display: block;
+    content: "";
+    clear: both;
+}
+
+.list-box-item {
+    position: relative;
+    height: 100%;
+    width: 0px;
+    transition: width .7s;
+    background: #edf6fa;
+    float: left;
+}
+
+.list-box-item ul {
+    display: none;
+}
+
+.list-box-item li {
+    border-bottom: 1px solid #d9e3ed;
+    line-height: 30px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.list-box-item.active {
+    width: 200px;
+}
+
+.list-box-item.active ul {
+    display: block;
+    padding: 10px;
+    padding-top: 35px;
+}
+
+.list-box-item-content {
+    width: 100%;
+    height: 100%;
+    float: left;
+    transition: width .7s;
+    padding: 15px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+
+.list-box-item.active+.list-box-item-content {
+    width: calc(100% - 200px);
+    border-left: 1px solid #d9e3ed;
+}
+
+.list-box-item .icon-icn_menu {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.list-box-item li .plus_icon,
+.box_options .plus_icon,
+.box_options .move_icon {
+    padding: 0px 8px;
+    cursor: pointer;
+    border: 1px dashed #c7c7c7;
+    position: absolute;
+    right: 0;
+    top: 5px;
+}
+
+
+.list-box-item li {
+    position: relative;
+}
+
+.list-box-item li span {
+    user-select: none;
+}
+
+.admin_table .remove_item::after {
+    width: 25px;
+    height: 25px;
+    content: 'x';
+    position: absolute;
+    right: 0;
+    color: red;
+    top: 0;
+    text-align: center;
+    cursor: pointer;
+}
+
+.admin_table .remove_item {
+    display: inline-block !important;
+}
+
+.admin_table td:nth-of-type(1) {
+    position: relative;
+}
+
+
+.admin_table tbody {
+    position: relative;
+}
+
+.box_item_main {
+    width: calc(100% - 80px);
+    display: inline-block;
+}
+
+
+.box_item_main .ck-editor__editable_inline {
+    min-height: 200px;
+}
+
+
+.box_options {
+    display: inline-block;
+    position: relative;
+}
+
+.box_options .plus_icon,
+.box_options .move_icon {
+    position: initial;
+    right: 0;
+    top: 0;
+    display: inline-block;
+    user-select: none;
+    height: 30px;
+    text-align: center;
+    padding: 0 5px;
+    line-height: 25px;
+    background: #edf6fb;
+}
+
+.box_options .plus_icon.btn-active {
+    background-color: #505050;
+    color: #fff;
+}
+
+.btn_confirm.submitButton.button {
+    position: relative;
+    padding: 12px 24px;
+    background: #009579;
+    border: none;
+    outline: none;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.button--loading .button__text {
+    visibility: hidden;
+    opacity: 0;
+}
+
+.button--loading::after {
+    content: "";
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    border: 4px solid transparent;
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: button-loading-spinner 1s ease infinite;
+}
+
+@keyframes button-loading-spinner {
+    from {
+        transform: rotate(0turn);
+    }
+
+    to {
+        transform: rotate(1turn);
+    }
+}

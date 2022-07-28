@@ -1,0 +1,4 @@
+<tr>
+    <td>{item_label}</td>
+    <td>{item_text} {0}</td>
+</tr>

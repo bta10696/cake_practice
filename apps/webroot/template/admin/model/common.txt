@@ -1,0 +1,43 @@
+<?php
+
+namespace App\Model\Table;
+
+use Cake\Validation\Validator;
+use App\Model\Table\AppTable;
+
+
+class {0}Table extends AppTable
+&=
+
+    public $attaches = [
+        'images' => [
+            'extensions' => {images_extension},
+            'width' => 430,
+            'height' => 290,
+            'thumbnails' => [
+                's' => [
+                    'width' => 123,
+                    'height' => 123
+                ]
+            ],
+        ], 
+        'files' => [
+            'extensions' => {file_extension}
+        ]
+    ];
+
+
+    public function initialize(array $config)
+    &=
+        parent::initialize($config);
+        $this->setTable("{table}");
+        $this->slug = "{0}";
+        {contain}
+    =&
+
+    public function validationDefault(Validator $validator)
+    &=
+        {validate}
+        return $validator;
+    =&
+=&
