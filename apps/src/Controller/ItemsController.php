@@ -21,6 +21,7 @@ class ItemsController extends AppController
 
     public function index()
     {
+        $this->viewBuilder()->layout('default');
         $cond = [];
         $options = [];
         parent::_lists($cond, $options);
