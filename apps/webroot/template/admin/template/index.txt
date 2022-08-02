@@ -1,8 +1,8 @@
-<?php 
+<?php
 $slug = strtolower($ModelName);
 $count = isset($total_count) ? $total_count : 0;
-$has_status = $$slug->getRepository()->getSchema()->hasColumn('status');
-$has_position = $$slug->getRepository()->getSchema()->hasColumn('position');
+$has_status = $datas->getRepository()->getSchema()->hasColumn('status');
+$has_position = $datas->getRepository()->getSchema()->hasColumn('position');
 $datas = $$slug->toArray();
 ?>
 
@@ -106,6 +106,7 @@ $datas = $$slug->toArray();
                 <?php endforeach; ?>
 			</table>
 		</div>
+        <?= $this->element('pagination')?>
 		<div class="btn_area" style="margin-top:10px;">
             <?= $this->Html->link('新規登録',['action'=>'edit'],['class'=>'btn_confirm btn_post']); ?>
         </div>

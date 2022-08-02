@@ -137,6 +137,7 @@ class AppController extends Controller
         } else $lists = $this->{$this->modelName}->find('all')->mapReduce($mapper, $reducer);
 
         $this->set('total_count', $lists->count());
+        $this->set('datas', $lists);
         $datas = ($this->paginate['limit'] === null) ? $lists : $this->paginate($lists, $options);
         $this->set($this->{$this->modelName}->getTable(), $datas);
         return $datas;

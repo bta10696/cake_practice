@@ -1,57 +1,54 @@
-<?php 
+<?php
 $slug = strtolower($ModelName);
 $count = isset($total_count) ? $total_count : 0;
-$has_status = $$slug->getRepository()->getSchema()->hasColumn('status');
-$has_position = $$slug->getRepository()->getSchema()->hasColumn('position');
+$has_status = $datas->getRepository()->getSchema()->hasColumn('status');
+$has_position = $datas->getRepository()->getSchema()->hasColumn('position');
 $datas = $$slug->toArray();
 ?>
 
 <div class="title_area">
-	<h1>aa管理</h1>
-	<div class="pankuzu">
-		<ul>
-			<?= $this->element('pankuzu_home'); ?>
-			<li><span>aa管理</span></li>
-		</ul>
-	</div>
+    <h1>お知らせ管理</h1>
+    <div class="pankuzu">
+        <ul>
+            <?= $this->element('pankuzu_home'); ?>
+            <li><span>お知らせ管理</span></li>
+        </ul>
+    </div>
 </div>
 
 <div class="content_inr">
-	<div class="box">
-		<h3 class="box__caption--count">
+    <div class="box">
+        <h3 class="box__caption--count">
             <span>登録一覧</span>
-            <span class="count"><?= $count?>件の登録</span>
+            <span class="count"><?= $count ?>件の登録</span>
         </h3>
-		<div class="btn_area" style="margin-top:10px;">
-            <?= $this->Html->link('新規登録',['action'=>'edit'],['class'=>'btn_confirm btn_post']); ?>
+        <div class="btn_area" style="margin-top:10px;">
+            <?= $this->Html->link('新規登録', ['action' => 'edit'], ['class' => 'btn_confirm btn_post']); ?>
         </div>
-		<div class="table_area">
-			<table class="table__list" style="table-layout: fixed;">
-				<colgroup>
-					<?= $has_status ? '<col style="width: 135px;">' : "" ?>
-					<col>
-					<col>
-					<col>
-					<col style="width: 80px;">
-					<?= $has_position ? '<col style="width: 150px;">' : "" ?>
-				</colgroup>
-				<tr>
-					<?= $has_status ? '<th>ステイタス</th>' : "" ?>
-					<th>項目１</th>
-					<th>項目２</th>
-					<th>項目３</th>
-					<th style="text-align:center;">確認</th>
-					<?= $has_position ? '<th style="text-align:center;">順序の変更</th>' : "" ?>
-				</tr>
+        <div class="table_area">
+            <table class="table__list" style="table-layout: fixed;">
+                <colgroup>
+                    <col style="width: 135px;">
+                    <col>
+                    <col style="width: 80px;">
+                    <?= $has_position ? '<col style="width: 150px;">' : "" ?>
+
+                </colgroup>
+                <tr>
+                    <th>ステイタス</th>
+                    <th>title</th>
+                    <th style="text-align:center;">確認</th>
+                    <?= $has_position ? '<th style="text-align:center;">順序の変更</th>' : "" ?>
+                </tr>
                 <?php foreach ($datas as $key => $data) : ?>
                     <?php
-                    $tr_class = 'visible';
-                    if ($has_status) :
-                        $is_publish = $data->status == PUBLISH;
-                        $tr_class = $is_publish ? $tr_class : 'unvisible';
-                        $status_btn_class = $is_publish ? 'visi' : 'unvisi';
-                    endif;
-                    ?>
+                        $tr_class = 'visible';
+                        if ($has_status) :
+                            $is_publish = $data->status == PUBLISH;
+                            $tr_class = $is_publish ? $tr_class : 'unvisible';
+                            $status_btn_class = $is_publish ? 'visi' : 'unvisi';
+                        endif;
+                        ?>
                     <tr class="<?= $tr_class ?>" id="content-<?= $data->id ?>">
 
                         <?php if ($has_status) : ?>
@@ -62,9 +59,8 @@ $datas = $$slug->toArray();
                             </td>
                         <?php endif; ?>
 
-                        <td><?= $this->Html->link('サンプル1', ['action' => 'edit', $data->id]); ?></td>
-                        <td><?= $this->Html->link('サンプル2', ['action' => 'edit', $data->id]); ?></td>
-                        <td><?= $this->Html->link('サンプル3', ['action' => 'edit', $data->id]); ?></td>
+                        <td><?= $this->Html->link(html_decode($data->title), ['action' => 'edit', $data->id]); ?></td>
+
 
                         <td>
                             <div class="prev">
@@ -104,10 +100,11 @@ $datas = $$slug->toArray();
 
                     </tr>
                 <?php endforeach; ?>
-			</table>
-		</div>
-		<div class="btn_area" style="margin-top:10px;">
-            <?= $this->Html->link('新規登録',['action'=>'edit'],['class'=>'btn_confirm btn_post']); ?>
+            </table>
         </div>
-	</div>
+        <?= $this->element('pagination') ?>
+        <div class="btn_area" style="margin-top:10px;">
+            <?= $this->Html->link('新規登録', ['action' => 'edit'], ['class' => 'btn_confirm btn_post']); ?>
+        </div>
+    </div>
 </div>

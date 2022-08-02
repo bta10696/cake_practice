@@ -6,7 +6,7 @@ use Cake\Validation\Validator;
 use App\Model\Table\AppTable;
 
 
-class AaTable extends AppTable
+class NewsTable extends AppTable
 {
 
     public $attaches = [
@@ -30,14 +30,14 @@ class AaTable extends AppTable
     public function initialize(array $config)
     {
         parent::initialize($config);
-        $this->setTable("aa");
-        $this->slug = "Aa";
-        $options["contain"] = $this->_associations_attached();
+        $this->setTable("news");
+        $this->slug = "News";
+        
     }
 
     public function validationDefault(Validator $validator)
     {
-        
+        $validator->notBlank("title", "※ タイトルをご入力ください。")->notEmptyString("title", "※ タイトルをご入力ください。")->minLength("title", 5, "※ 5字以上でご入力ください。")->maxLength("title", 100, "※ 100字以下でご入力ください。");
         return $validator;
     }
 }

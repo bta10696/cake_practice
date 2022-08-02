@@ -7,7 +7,7 @@ use App\Controller\Admin\AppController;
 use Cake\Utility\Inflector;
 
 
-class ItemsController extends AppController
+class NewsController extends AppController
 {
 
     public function beforeFilter(Event $event)
@@ -23,7 +23,7 @@ class ItemsController extends AppController
     public function index()
     {
         $conditions = [];
-        $options = ['limit' => null];
+        $options = ['limit' => 1];
 
         if ($this->{$this->modelName}->hasField('position')) $options['order'] = [$this->modelName . '.position ASC'];
 
@@ -36,7 +36,7 @@ class ItemsController extends AppController
         $option = [];
         $options = [];
         $this->{$this->modelName}->curent_id = $id;
-        $options["contain"] = $this->_associations_attached();
+        
 
         parent::_edit($id, $option, $options);
     }

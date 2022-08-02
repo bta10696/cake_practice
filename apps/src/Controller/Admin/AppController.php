@@ -167,11 +167,11 @@ class AppController extends BaseController
         extract($option);
 
         $data = $id &&  $this->_detail($id, $conditions, $options) ? $this->_detail($id, $conditions, $options) : $this->{$this->modelName}->newEntity();
-
+        $_data = $data;
         if ($this->request->is(['post', 'put']) && $this->request->getData()) {
             if ($saveMany) $data = $this->{$this->modelName}->patchEntity($data, $this->request->getData(), ['fields' => $saveMany]);
             else $data = $this->{$this->modelName}->patchEntity($data, $this->request->getData());
-
+            $_data = $data;
             if (empty($data->getErrors())) {
                 if ($this->{$this->modelName}->save($data)) {
                     if ($callback) $callback($data);
@@ -184,7 +184,7 @@ class AppController extends BaseController
                 }
             } else {
                 $this->set('list_errors', $data->getErrors());
-
+                $_data = $this->request->getData();
                 $this->Flash->set('正しく入力されていない項目があります。', [
                     'key' => 'post_fail',
                     'element' => 'error'
@@ -198,7 +198,7 @@ class AppController extends BaseController
                 $this->Session->delete('code_upload');
             }
         }
-        $this->set('data', $data);
+        $this->set('data', $_data);
         $this->set('entity', $data);
         return $data;
     }
@@ -510,9 +510,14 @@ class AppController extends BaseController
             '管理' => []
         ];
 
-        if ($this->isLogin() && in_array($role, [User::ROLE_DEVELOP, User::ROLE_ADMIN], true)) {
+        if ($this->isLogin() && in_array($role, [User::ROLE_DEVELOP], true)) {
             $list['user_site_list']['users'] = 'ユーザ管理';
             $list['user_menu_list']['設定']['configs'] = 'コンテンツ設定';
+            $list['user_menu_list']['管理']['users'] = 'ユーザ管理';
+        } else 
+        if ($this->isLogin() && in_array($role, [User::ROLE_ADMIN], true)) {
+            unset($list['role_list'][User::ROLE_DEVELOP]);
+            $list['user_site_list']['users'] = 'ユーザ管理';
             $list['user_menu_list']['管理']['users'] = 'ユーザ管理';
         }
         if ($this->Session->check('code_upload')) $this->{$this->modelName}->code_upload = $this->Session->read('code_upload');

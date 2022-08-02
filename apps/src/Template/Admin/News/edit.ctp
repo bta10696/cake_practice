@@ -8,7 +8,7 @@
 <?php $this->end(); ?>
 
 <div class="title_area">
-	<h1>商品管理</h1>
+	<h1>お知らせ管理</h1>
 	<div class="pankuzu">
 		<ul>
 			<?= $this->element('pankuzu_home'); ?>
@@ -27,56 +27,15 @@
             <div class="table_area form_area">
                 <table class="vertical_table table__meta">
                 <tr>
-    <td>状態</td>
+    <td>Label</td>
     <td>新規 </td>
-</tr><tr>
-    <td>掲載日</td>
-    <td>
-        <div>
-            <?= $this->Form->control("start_date", ['type'=>'date', 'label' => false])?>
-            
-        </div>						
-    </td>
-</tr><tr>
-    <td>カテゴリー</td>
-    <td>
-        <div>
-            <select name="category">
-                <option value>選択してください</option>
-                <option value="1">Option 1</option>
-                <option value="2">Option 2</option>
-                <option value="3">Option 3</option>
-            </select>
-            
-        </div>						
-    </td>
 </tr><tr>
     <td>タイトル</td>
     <td>
         <div>
-            <?= $this->Form->control("title", ['label' => false, "minlength"=>10, "maxlength"=>200,])?>
+        <?= $this->Form->control("title", ['label' => false, "minlength" => 1, "maxlength" => 100]) ?>
             
         </div>						
-    </td>
-</tr><tr>
-    <td>セール</td>
-    <td>
-        <div class="checkbox">
-            <input type="checkbox" name="sale" value="0" id="checkbox-0"><label class="mar_r20" for="checkbox-0">Checkbox 1</label>
-        </div>
-        <div class="checkbox">
-            <input type="checkbox" name="sale" value="1" id="checkbox-1"><label class="mar_r20" for="checkbox-1">Checkbox 2</label>
-        </div>	
-        <div class="checkbox">
-            <input type="checkbox" name="sale" value="2" id="checkbox-2"><label class="mar_r20" for="checkbox-2">Checkbox 3</label>
-        </div>	
-        				
-    </td>
-</tr><tr>
-    <td>画像</td>
-    <td class="edit_image_area">
-        <?= $this->element('form/image', ["accept"=> ".jpg,.jpeg,.gif,.png,.svg,.ico,.pjpeg"]) ?>
-        
     </td>
 </tr>
                 </table>
