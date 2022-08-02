@@ -1,0 +1,77 @@
+<?php
+
+namespace App\Controller\Admin;
+
+use Cake\Event\Event;
+use App\Controller\Admin\AppController;
+use Cake\Utility\Inflector;
+
+
+class ItemsController extends AppController
+{
+
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->modelName = Inflector::camelize($this->name);
+        
+        $this->set('ModelName', $this->modelName);
+        $this->setList();
+    }
+
+
+    public function index()
+    {
+        $conditions = [];
+        $options = ['limit' => 1];
+
+        if ($this->{$this->modelName}->hasField('position')) $options['order'] = [$this->modelName . '.position ASC'];
+
+        parent::_lists($conditions, $options);
+    }
+
+
+    public function edit($id = null)
+    {
+        $option = [];
+        $options = [];
+        $this->{$this->modelName}->curent_id = $id;
+        $options["contain"] = $this->_associations_attached();
+
+        parent::_edit($id, $option, $options);
+    }
+
+
+    public function delete($id)
+    {
+        $options = [];
+        parent::_delete($id, $options);
+    }
+
+
+    public function position($id, $pos)
+    {
+        $options = [];
+        parent::_position($id, $pos, $options);
+    }
+
+
+    public function enable($id)
+    {
+        $options = [];
+        parent::_enable($id, $options);
+    }
+
+    
+    protected function setList()
+    {
+        parent::setList();
+
+        $list = [];
+        if (!empty($list)) $this->set(array_keys($list), $list);
+
+        $this->list = $list;
+        return $list;
+    }
+}
+?>
