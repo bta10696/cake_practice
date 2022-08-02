@@ -32,14 +32,16 @@ $datas = $$slug->toArray();
 					<col>
 					<col>
 					<col>
+					<col>
 					<col style="width: 80px;">
 					<?= $has_position ? '<col style="width: 150px;">' : "" ?>
 				</colgroup>
 				<tr>
 					<?= $has_status ? '<th>ステイタス</th>' : "" ?>
-					<th>項目１</th>
-					<th>項目２</th>
-					<th>項目３</th>
+                    <th style="text-align:center;">掲載日時</th>
+					<th>商品名</th>
+					<th>カテゴリー</th>
+					<th>定格</th>
 					<th style="text-align:center;">確認</th>
 					<?= $has_position ? '<th style="text-align:center;">順序の変更</th>' : "" ?>
 				</tr>
@@ -62,9 +64,11 @@ $datas = $$slug->toArray();
                             </td>
                         <?php endif; ?>
 
-                        <td><?= $this->Html->link('サンプル1', ['action' => 'edit', $data->id]); ?></td>
-                        <td><?= $this->Html->link('サンプル2', ['action' => 'edit', $data->id]); ?></td>
-                        <td><?= $this->Html->link('サンプル3', ['action' => 'edit', $data->id]); ?></td>
+                        <td><?= is_null($data->publish_at) ? '' : $data->publish_at->format('Y年m月d日 h時i分'); ?></td>
+                        <td><?= $this->Html->link(html_decode($data->item_name), ['action' => 'edit', $data->id]); ?></td>
+                        <td><?= @html_decode($data->category->category_name) ?></td>
+                        <td><?= $this->Html->link(html_decode($data->price), ['action' => 'edit', $data->id]); ?></td>
+
 
                         <td>
                             <div class="prev">

@@ -68,6 +68,12 @@ class ItemsController extends AppController
         parent::setList();
 
         $list = [];
+        $list['cat_list'] = $this->loadModel('Category')->find('list', [
+            'keyField' => 'id',
+            'valueField' => 'category_name'
+        ])
+            ->where(['status' => PUBLISH]);
+
         if (!empty($list)) $this->set(array_keys($list), $list);
 
         $this->list = $list;
