@@ -7,7 +7,7 @@ use App\Controller\Admin\AppController;
 use Cake\Utility\Inflector;
 
 
-class ItemsController extends AppController
+class CategoryController extends AppController
 {
 
     public function beforeFilter(Event $event)
@@ -24,7 +24,7 @@ class ItemsController extends AppController
     {
         $conditions = [];
         $options = ['limit' => 10];
-        $options["contain"] = ['Category'];
+
         if ($this->{$this->modelName}->hasField('position')) $options['order'] = [$this->modelName . '.position ASC'];
 
         parent::_lists($conditions, $options);
@@ -68,12 +68,6 @@ class ItemsController extends AppController
         parent::setList();
 
         $list = [];
-        $list['cat_list'] = $this->loadModel('Category')->find('list', [
-            'keyField' => 'id',
-            'valueField' => 'category_name'
-        ])
-            ->where(['status' => PUBLISH]);
-
         if (!empty($list)) $this->set(array_keys($list), $list);
 
         $this->list = $list;

@@ -33,6 +33,11 @@ class ItemsTable extends AppTable
         $this->setTable("items");
         $this->slug = "Items";
         $options["contain"] = $this->_associations_attached();
+
+        $this->hasOne('Category')
+            ->setForeignKey('id')
+            ->setBindingKey('category_id')
+            ->setConditions(['Category.status' => 'publish']);
     }
 
     public function validationDefault(Validator $validator)

@@ -23,7 +23,7 @@ class {0}Controller extends AppController
     public function index()
     &=
         $conditions = [];
-        $options = ['limit' => 1];
+        $options = ['limit' => 10];
 
         if ($this->&=$this->modelName=&->hasField('position')) $options['order'] = [$this->modelName . '.position ASC'];
 

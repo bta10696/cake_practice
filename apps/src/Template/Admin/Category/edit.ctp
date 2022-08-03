@@ -8,7 +8,7 @@
 <?php $this->end(); ?>
 
 <div class="title_area">
-    <h1>ITEMS管理</h1>
+    <h1>カテゴリー管理</h1>
     <div class="pankuzu">
         <ul>
             <?= $this->element('pankuzu_home'); ?>
@@ -27,58 +27,23 @@
             <div class="table_area form_area">
                 <table class="vertical_table table__meta">
                     <tr>
-                        <td>表示板号</td>
+                        <td>表示番号</td>
                         <td><?= $entity->isNew() ? '新規登録' : sprintf('No. %04d', $entity['id']) ?></td>
                     </tr>
                     <tr>
-                        <td>掲載日</td>
+                        <td>記事表示</td>
                         <td>
                             <div>
-                                <?= $this->Form->control("publish_at", ['type' => 'datetime-local', 'label' => false, 'value' => is_null($entity->publish_at) ? "" : str_replace(" ", 'T', $entity->publish_at->format('Y-m-d H:i'))]) ?>
+                                <?= $this->Form->control("status", ['type' => 'select', 'options' => $status, 'label' => false]) ?>
 
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td>カテゴリー <span class="attent">※必須</span></td>
+                        <td>カテゴリー名</td>
                         <td>
                             <div>
-                                <?= $this->Form->control("category_id", ['type' => 'select', 'options' => $cat_list, 'label' => false, 'empty' => '選択してください']) ?>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>商品名</td>
-                        <td>
-                            <div>
-                                <?= $this->Form->control("item_name", ['label' => false, "minlength" => 2, "maxlength" => 100,]) ?>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>定格</td>
-                        <td>
-                            <div>
-                                <?= $this->Form->control("price", ['label' => false, "minlength" => 2, "maxlength" => 20,]) ?>
-
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>状況</td>
-                        <td>
-                            <?= $this->Form->radio('lang', ['jp' => ''], ['label' => false, 'hiddenField' => false, 'default' => 'jp']); ?>
-                            <label for="lang-jp">日本語</label>
-                            <?= $this->Form->radio('lang', ['en' => ''], ['label' => false, 'hiddenField' => false]); ?>
-                            <label for="lang-en">ENGLISH</label>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>元定格</td>
-                        <td>
-                            <div>
-                                <?= $this->Form->control("old_price", ['label' => false, "minlength" => 2, "maxlength" => 20,]) ?>
+                                <?= $this->Form->control("category_name", ['label' => false, "minlength" => 2, "maxlength" => 100,]) ?>
 
                             </div>
                         </td>
@@ -88,15 +53,6 @@
                         <td class="edit_image_area">
                             <?= $this->element('form/image', ["accept" => ".jpg,.jpeg,.gif,.png,.pjpeg"]) ?>
 
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>記事表示</td>
-                        <td>
-                            <div>
-                                <?= $this->Form->control("status", ['type' => 'select', 'options' => $status, 'label' => false]) ?>
-
-                            </div>
                         </td>
                     </tr>
                 </table>
