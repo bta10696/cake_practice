@@ -172,7 +172,7 @@ class AppController extends BaseController
             if ($saveMany) $data = $this->{$this->modelName}->patchEntity($data, $this->request->getData(), ['fields' => $saveMany]);
             else $data = $this->{$this->modelName}->patchEntity($data, $this->request->getData());
             $_data = $data;
-            dd($data);
+            // dd($data);
             if (empty($data->getErrors())) {
                 if ($this->{$this->modelName}->save($data)) {
                     if ($callback) $callback($data);

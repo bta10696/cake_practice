@@ -36,7 +36,7 @@ $datas = $$slug->toArray();
                     <?= $has_status ? '<col style="width: 135px;">' : "" ?>
                     <col style="width: 180px;">
                     <col>
-                    <col>
+                    <col style="width: 250px;">
                     <col style="width: 135px;">
                     <col style="width: 80px;">
                     <?= $has_position ? '<col style="width: 150px;">' : "" ?>

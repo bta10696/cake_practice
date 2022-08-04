@@ -31,10 +31,10 @@
                         <td><?= $entity->isNew() ? '新規登録' : sprintf('No. %04d', $entity['id']) ?></td>
                     </tr>
                     <tr>
-                        <td>掲載日</td>
+                        <td>掲載日<span class="attent">※必須</span></td>
                         <td>
                             <div>
-                                <?= $this->Form->control("publish_at", ['type' => 'datetime-local', 'label' => false, 'value' => is_null($entity->publish_at) ? "" : str_replace(" ", 'T', $entity->publish_at->format('Y-m-d H:i'))]) ?>
+                            <?= $this->Form->control("publish_at", ['type' => 'datetime-local', 'label' => false, 'value' => is_string($entity->publish_at) ? $entity->publish_at : (is_null($entity->publish_at) ? '' : str_replace(' ', 'T', $entity->publish_at->format('Y-m-d H:i')))]) ?>
 
                             </div>
                         </td>
@@ -48,7 +48,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>商品名</td>
+                        <td>商品名<span class="attent">※必須</span></td>
                         <td>
                             <div>
                                 <?= $this->Form->control("item_name", ['label' => false, "minlength" => 2, "maxlength" => 100,]) ?>
@@ -56,7 +56,15 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>定格</td>
+                        <td>内容<span class="attent">※必須</span></td>
+                        <td>
+                            <div>
+                                <?= $this->Form->control("description", ['label' => false, "minlength" => 2, "maxlength" => 1000, 'rows'=> 6]) ?>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>定格<span class="attent">※必須</span></td>
                         <td>
                             <div>
                                 <?= $this->Form->control("price", ['label' => false, "minlength" => 2, "maxlength" => 20,]) ?>
@@ -67,24 +75,32 @@
                     <tr>
                         <td>状況</td>
                         <td>
-                            <?= $this->Form->radio('lang', ['jp' => ''], ['label' => false, 'hiddenField' => false, 'default' => 'jp']); ?>
-                            <label for="lang-jp">日本語</label>
-                            <?= $this->Form->radio('lang', ['en' => ''], ['label' => false, 'hiddenField' => false]); ?>
-                            <label for="lang-en">ENGLISH</label>
-
+                            <input type="hidden" name="desired" value="normal">
+                            <div class="radio checkbox-inline">
+                                <input type="radio" name="status_2" value="normal" id="radio-4" <?= @$data['status_2'] == 'normal' ? 'checked="checked"' : ''; ?>><label class="mar_r20" for="radio-4" >Normal</label>
+                            </div>
+                            <div class="radio checkbox-inline">
+                                <input type="radio" name="status_2" value="sale" id="radio-5" <?= @$data['status_2'] == 'sale' ? 'checked="checked"' : '' ;?>><label class="mar_r20" for="radio-5">Sale</label>
+                            </div>
+                            <div class="radio checkbox-inline">
+                                <input type="radio" name="status_2" value="new" id="radio-6" <?= @$data['status_2'] == 'new' ? 'checked="checked"' : '' ;?>><label class="mar_r20" for="radio-6">New</label>
+                            </div>
+                            <div class="radio checkbox-inline">
+                                <input type="radio" name="status_2" value="hot" id="radio-7" <?= @$data['status_2'] == 'hot' ? 'checked="checked"' : '' ;?>><label class="mar_r20" for="radio-7">Hot</label>
+                            </div>
                         </td>
                     </tr>
                     <tr>
                         <td>元定格</td>
                         <td>
                             <div>
-                                <?= $this->Form->control("old_price", ['label' => false, "minlength" => 2, "maxlength" => 20,]) ?>
+                                <?= $this->Form->control("old_price", ['label' => false, "minlength" => 2, "maxlength" => 20]) ?>
 
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td>画像</td>
+                        <td>画像<span class="attent">※必須</span></td>
                         <td class="edit_image_area">
                             <?= $this->element('form/image', ["accept" => ".jpg,.jpeg,.gif,.png,.pjpeg"]) ?>
 

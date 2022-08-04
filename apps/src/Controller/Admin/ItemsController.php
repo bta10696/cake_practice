@@ -23,8 +23,9 @@ class ItemsController extends AppController
     public function index()
     {
         $conditions = [];
-        $options = ['limit' => 10];
-        $options["contain"] = ['Category'];
+        $options = ['limit' => 10,];
+        $options["contain"] = $this->_associations_attached();
+        $options["contain"][]= 'Category';
         if ($this->{$this->modelName}->hasField('position')) $options['order'] = [$this->modelName . '.position ASC'];
 
         parent::_lists($conditions, $options);
@@ -80,4 +81,3 @@ class ItemsController extends AppController
         return $list;
     }
 }
-?>
