@@ -66,7 +66,7 @@ return [
             'templates' => [APP . 'Template' . DS],
             'locales' => [APP . 'Locale' . DS],
         ],
-        'headTitle' => 'CMS-V6'
+        'headTitle' => 'Cake_php'
     ],
 
     /*

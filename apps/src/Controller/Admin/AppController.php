@@ -134,7 +134,7 @@ class AppController extends BaseController
         if (!$this->request->getParam('prefix')) return true;
 
         // Only admins can access admin functions
-        if ($this->request->getParam('prefix') === 'admin')  return (bool)($this->isLogin());
+        if ($this->request->getParam('prefix') === 'admin')  return (bool) ($this->isLogin());
 
         // Default deny
         return false;
@@ -171,8 +171,8 @@ class AppController extends BaseController
         if ($this->request->is(['post', 'put']) && $this->request->getData()) {
             if ($saveMany) $data = $this->{$this->modelName}->patchEntity($data, $this->request->getData(), ['fields' => $saveMany]);
             else $data = $this->{$this->modelName}->patchEntity($data, $this->request->getData());
+
             $_data = $data;
-            // dd($data);
             if (empty($data->getErrors())) {
                 if ($this->{$this->modelName}->save($data)) {
                     if ($callback) $callback($data);
@@ -223,18 +223,25 @@ class AppController extends BaseController
         if ($data) {
             $this->{$this->modelName}->delete($data);
 
-            $files = glob(WWW_ROOT . 'upload/' . $this->modelName . '/' . $id . '/files/*'); // file
+            $dir = WWW_ROOT . 'upload/' . $this->modelName . '/' . $id;
+
+            $files = glob($dir . '/files/*'); // file
             foreach ($files as $file) { // iterate files
                 if (is_file($file)) {
                     unlink($file); // delete file
                 }
             }
-            $files = glob(WWW_ROOT . 'upload/' . $this->modelName . '/' . $id . '/images/*'); // image
+            $files = glob($dir . '/images/*'); // image
             foreach ($files as $file) { // iterate files
                 if (is_file($file)) {
                     unlink($file); // delete file
                 }
             }
+            if (is_dir($dir . '/files')) rmdir($dir . '/files');
+
+            if (is_dir($dir . '/images')) rmdir($dir . '/images');
+            if (is_dir($dir)) rmdir($dir);
+
             $id = null;
         }
 
@@ -282,7 +289,7 @@ class AppController extends BaseController
         if ($data = $this->_detail($id)) {
             $status = $data->status != 'publish' ? 'publish' : 'draft';
             $model = $this->{$this->modelName};
-            $model->updateAll([$model->aliasField('status') => $status], [$model->aliasField($model->getPrimaryKey()) => $id]);
+            $model->updateAll(['status' => $status], [$model->aliasField($model->getPrimaryKey()) => $id]);
         }
         if ($redirect) $this->redirect($redirect);
     }
@@ -429,20 +436,6 @@ class AppController extends BaseController
     }
 
 
-    protected function _associations_attached()
-    {
-        $slug = $this->modelName;
-        return [
-            'AttachedFiles' => function ($q) use ($slug) {
-                return $q->where(['slug' => $slug]);
-            },
-            'AttachedImages' => function ($q) use ($slug) {
-                return $q->where(['slug' => $slug]);
-            }
-        ];
-    }
-
-
     public function convert_img($size, $source, $dist, $method = 'fit')
     {
         list($ow, $oh, $info) = getimagesize($source);
@@ -500,7 +493,11 @@ class AppController extends BaseController
         $role = @$this->Session->read($this->auth_storage_key)['role'];
 
         $list['config_list'] = $this->loadModel('configs')->find('all')
-            ->where(['is_default !=' => self::DEFAULT_CONFIG])
+            ->where(['is_default !=' => self::DEFAULT_CONFIG, 'lang' => 'jp'])
+            ->toArray();
+
+        $list['config_list_en'] = $this->loadModel('configs')->find('all')
+            ->where(['is_default !=' => self::DEFAULT_CONFIG, 'lang' => 'en'])
             ->toArray();
 
         $list['role'] = $role;
@@ -512,13 +509,11 @@ class AppController extends BaseController
         ];
 
         if ($this->isLogin() && in_array($role, [User::ROLE_DEVELOP], true)) {
-            $list['user_site_list']['users'] = 'ユーザ管理';
             $list['user_menu_list']['設定']['configs'] = 'コンテンツ設定';
             $list['user_menu_list']['管理']['users'] = 'ユーザ管理';
         } else 
         if ($this->isLogin() && in_array($role, [User::ROLE_ADMIN], true)) {
             unset($list['role_list'][User::ROLE_DEVELOP]);
-            $list['user_site_list']['users'] = 'ユーザ管理';
             $list['user_menu_list']['管理']['users'] = 'ユーザ管理';
         }
         if ($this->Session->check('code_upload')) $this->{$this->modelName}->code_upload = $this->Session->read('code_upload');

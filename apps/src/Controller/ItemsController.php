@@ -25,11 +25,12 @@ class ItemsController extends AppController
         $this->viewBuilder()->layout('default');
         $cond = [
             'Items.status' => 'publish',
-            // 'Item.publish_at' => new \DateTime('now')
+            'Items.publish_at <=' => (new \DateTime('now', new \DateTimeZone('Asia/Tokyo')))->format('Y-m-d')
         ];
         $options = [];
         $options["contain"] = $this->_associations_attached();
         $options["contain"][] = 'Category';
+        $options['limit'] = 3;
         parent::_lists($cond, $options);
     }
 

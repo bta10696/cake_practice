@@ -34,7 +34,7 @@
                         <td>掲載日<span class="attent">※必須</span></td>
                         <td>
                             <div>
-                            <?= $this->Form->control("publish_at", ['type' => 'datetime-local', 'label' => false, 'value' => is_string($entity->publish_at) ? $entity->publish_at : (is_null($entity->publish_at) ? '' : str_replace(' ', 'T', $entity->publish_at->format('Y-m-d H:i')))]) ?>
+                            <input type="date" name="publish_at" value="<?= is_string($entity->publish_at) ? $entity->publish_at : (is_null($entity->publish_at) ? '' :  $entity->publish_at->format('Y-m-d')) ?>">
 
                             </div>
                         </td>
@@ -59,7 +59,7 @@
                         <td>内容<span class="attent">※必須</span></td>
                         <td>
                             <div>
-                                <?= $this->Form->control("description", ['label' => false, "minlength" => 2, "maxlength" => 1000, 'rows'=> 6]) ?>
+                                <?= $this->Form->control("description", ['label' => false, "minlength" => 2, "maxlength" => 1000, 'rows' => 6]) ?>
                             </div>
                         </td>
                     </tr>
@@ -77,16 +77,16 @@
                         <td>
                             <input type="hidden" name="desired" value="normal">
                             <div class="radio checkbox-inline">
-                                <input type="radio" name="status_2" value="normal" id="radio-4" <?= @$data['status_2'] == 'normal' ? 'checked="checked"' : ''; ?>><label class="mar_r20" for="radio-4" >Normal</label>
+                                <input type="radio" name="status_2" value="normal" id="radio-4" <?= @$data['status_2'] == 'normal' ? 'checked="checked"' : ''; ?>><label class="mar_r20" for="radio-4">Normal</label>
                             </div>
                             <div class="radio checkbox-inline">
-                                <input type="radio" name="status_2" value="sale" id="radio-5" <?= @$data['status_2'] == 'sale' ? 'checked="checked"' : '' ;?>><label class="mar_r20" for="radio-5">Sale</label>
+                                <input type="radio" name="status_2" value="sale" id="radio-5" <?= @$data['status_2'] == 'sale' ? 'checked="checked"' : ''; ?>><label class="mar_r20" for="radio-5">Sale</label>
                             </div>
                             <div class="radio checkbox-inline">
-                                <input type="radio" name="status_2" value="new" id="radio-6" <?= @$data['status_2'] == 'new' ? 'checked="checked"' : '' ;?>><label class="mar_r20" for="radio-6">New</label>
+                                <input type="radio" name="status_2" value="new" id="radio-6" <?= @$data['status_2'] == 'new' ? 'checked="checked"' : ''; ?>><label class="mar_r20" for="radio-6">New</label>
                             </div>
                             <div class="radio checkbox-inline">
-                                <input type="radio" name="status_2" value="hot" id="radio-7" <?= @$data['status_2'] == 'hot' ? 'checked="checked"' : '' ;?>><label class="mar_r20" for="radio-7">Hot</label>
+                                <input type="radio" name="status_2" value="hot" id="radio-7" <?= @$data['status_2'] == 'hot' ? 'checked="checked"' : ''; ?>><label class="mar_r20" for="radio-7">Hot</label>
                             </div>
                         </td>
                     </tr>

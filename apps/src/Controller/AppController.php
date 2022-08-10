@@ -67,6 +67,9 @@ class AppController extends Controller
         $this->setHeadTitle();
     }
 
+    public $helpers = [
+        'Paginator' => ['templates' => 'paginator-templates']
+    ];
 
     public function beforeFilter(Event $event)
     {
