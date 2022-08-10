@@ -22,7 +22,6 @@ class ItemsController extends AppController
 
     public function index()
     {
-        $this->viewBuilder()->layout('default');
         $cond = [
             'Items.status' => 'publish',
             'Items.publish_at <=' => (new \DateTime('now', new \DateTimeZone('Asia/Tokyo')))->format('Y-m-d')
@@ -37,9 +36,33 @@ class ItemsController extends AppController
 
     public function detail($id = null)
     {
-        $this->viewBuilder()->layout('default');
-        $cond = [];
+        $cond = [
+            $this->modelName . '.status' => PUBLISH,
+            'Category.status' => PUBLISH,
+            'OR' => [
+                $this->modelName . '.publish_at <=' => (new \DateTime('now', new \DateTimeZone('Asia/Tokyo')))->format('Y-m-d'),
+                $this->modelName . '.publish_at IS NULL'
+            ]
+        ];
+        $cond = $this->request->getQuery('preview') === 'on' ? [] : $cond;
+
         $options = [];
-        parent::_detail($id, $cond, $options);
+        $options["contain"] = $this->_associations_attached();
+        $options['contain'][] = 'Category';
+
+        if (is_null(parent::_detail($id, $cond, $options))) $this->redirect(['action' => 'index']);
+    }
+
+    protected function _associations_attached()
+    {
+        $slug = $this->modelName;
+        return [
+            'AttachedFiles' => function ($q) use ($slug) {
+                return $q->where(['slug' => $slug]);
+            },
+            'AttachedImages' => function ($q) use ($slug) {
+                return $q->where(['slug' => $slug]);
+            }
+        ];
     }
 }

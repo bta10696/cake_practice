@@ -105,8 +105,7 @@ class AppController extends Controller
             $this->auth_storage_key = 'Auth.Admin';
             $this->viewBuilder()->setLayout('common');
         } else {
-
-            $this->viewBuilder()->setLayout('simple');
+            $this->viewBuilder()->setLayout('default');
         }
     }
 
@@ -166,10 +165,8 @@ class AppController extends Controller
         if ($cond) $options['conditions'] = $cond;
 
         if ($this->paginate['limit'] === null) {
-            unset(
-                $options['limit'],
-                $options['paramType']
-            );
+            unset($options['limit'],
+            $options['paramType']);
 
             $lists = $this->{$this->modelName}
                 ->find('all', $options)
@@ -193,8 +190,10 @@ class AppController extends Controller
      * */
     protected function _detail($id = null, $cond = [], $options = [])
     {
-        $cond = empty($cond) && !is_null($id) ? [$this->modelName . '.id' => $id] : $cond;
+        unset($cond['id']);
+        unset($cond[$this->modelName . '.id']);
 
+        $cond[$this->modelName . '.id'] = $id;
         if (empty($cond)) return null;
 
         $modelName = $this->modelName;
@@ -242,8 +241,8 @@ class AppController extends Controller
             ->find('all', $options)
             ->mapReduce($mapper, $reducer);
 
-        $assoctiation = $this->{$this->modelName}->associations()->keys();
-        if ($assoctiation) $data = $data->contain($assoctiation);
+        // $assoctiation = $this->{$this->modelName}->associations()->keys();
+        // if ($assoctiation) $data = $data->contain($assoctiation);
         $data = $data->first();
 
         $this->set(compact('data'));

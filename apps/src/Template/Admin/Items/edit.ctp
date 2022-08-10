@@ -34,7 +34,7 @@
                         <td>掲載日<span class="attent">※必須</span></td>
                         <td>
                             <div>
-                            <input type="date" name="publish_at" value="<?= is_string($entity->publish_at) ? $entity->publish_at : (is_null($entity->publish_at) ? '' :  $entity->publish_at->format('Y-m-d')) ?>">
+                                <input type="date" name="publish_at" value="<?= is_string($entity->publish_at) ? $entity->publish_at : (is_null($entity->publish_at) ? '' : $entity->publish_at->format('Y-m-d')) ?>">
 
                             </div>
                         </td>
@@ -61,6 +61,19 @@
                             <div>
                                 <?= $this->Form->control("description", ['label' => false, "minlength" => 2, "maxlength" => 1000, 'rows' => 6]) ?>
                             </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>説明文<span class="attent">※必須</span></td>
+                        <td>
+                            <div id="toolbar-container"></div>
+                            <div id="editor" style="border: 1px solid #ccc !important;"><?= @$data['content'] ?></div>
+                            <?= $this->Form->textarea("content", ['hidden' => 'hidden', 'id' => 'event-content', 'error' => false, 'label' => false, "minlength" => 1, "maxlength" => 1000]) ?>
+                            <?php if ($this->Form->isFieldError('content')) : ?>
+                                <div class="error-message">
+                                    <div class="error-message"><?= @$this->Form->error('content') ?></div>
+                                </div>
+                            <?php endif ?>
                         </td>
                     </tr>
                     <tr>
